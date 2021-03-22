@@ -1,0 +1,23 @@
+
+h1 {
+    color: white;
+    text-align: center;
+    background-color: rgb(73, 73, 73);
+    padding: 20px;
+    font-family: 'Roboto', sans-serif;
+}
+
+button {
+    background-color: #007bff !important;
+    color: white;
+}
+
+#city-name {
+    font-size: 36px;
+}
+
+.fiveDayForecast {
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+}
+
