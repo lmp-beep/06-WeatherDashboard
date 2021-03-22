@@ -1,6 +1,3 @@
-// document.ready
-// $(document).ready(function() {
-//     console.log("ready!");
 
 
 var searchBtn = document.getElementById("search-button");
@@ -18,11 +15,12 @@ var forecast = document.querySelectorAll(".fiveDayForecast");
 var todayMoment = moment();
 var today = document.getElementById("today-date");
 
-var APIKey = "e3813bf326b2e2d008254be6963cf88d"
+var APIKey = "e3813bf326b2e2d008254be6963cf88d";
+
 
 
     function getWeatherApi(cityName) {
-        // API call for weather info
+        // API call for current weather info
         var requestUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial" + "&appid=" + APIKey;
 
         fetch(requestUrl)
@@ -38,7 +36,8 @@ var APIKey = "e3813bf326b2e2d008254be6963cf88d"
             cityTemp.innerHTML = "Temperature: " + Math.round(data.main.temp) + " &#176F";
             cityHumidity.innerHTML = "Humidity: " + (data.main.humidity) + "%";
             cityWindSpeed.innerHTML = "Wind Speed: " + Math.round(data.wind.speed) + " MPH";
-            
+
+
             // display weather pic icon
             icon.innerHTML = data.weather[0].icon;
              icon.setAttribute("src","https://openweathermap.org/img/wn/" + icon + "@2x.png");
@@ -60,13 +59,8 @@ var APIKey = "e3813bf326b2e2d008254be6963cf88d"
             })
 
 
-
-        
-             
-            
-
             // API call for 5 day forecast
-            var request5Day = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=imperial" + "&exclude=current,minutely,hourly&appid=" + APIKey;
+            var request5Day = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=current,minutely,hourly,alerts&units=imperial&appid=" + APIKey;
 
             fetch(request5Day)
             .then(function (response) {
@@ -76,16 +70,18 @@ var APIKey = "e3813bf326b2e2d008254be6963cf88d"
                 console.log(data);
                 for (i=0; i<forecast.length; i++) {
                     forecast[i].innerHTML = "";
-                    const forecastDate = document.createElement("p");
-                    forecastDate.innerHtml = (data.list[i].dt_text);
+                    // display 5 day dates
+                    const forecastDate = new Date(data.daily[i].dt *1000).toLocaleDateString("en-US");
+                        console.log(forecastDate);
+                    forecastDate.innerHtml = "";
                     forecast[i].append(forecastDate);
                     // display 5 day temps
                     const forecastTemp = document.createElement("p");
-                    forecastTemp.innerHTML = "Temp: " + Math.round(data.list[i].main.temp) + " &#176F";
+                    forecastTemp.innerHTML = "Temp: " + Math.round(data.daily[i].temp.min) + "/" + Math.round(data.daily[i].temp.max) + " &#176F";
                     forecast[i].append(forecastTemp);
                     // display 5 day humidity
                     const forecastHumidity = document.createElement("p");
-                    forecastHumidity.innerHTML = "Humidity: " + Math.round(data.list[i].main.humidity);
+                    forecastHumidity.innerHTML = "Humidity: " + Math.round(data.daily[i].humidity);
                     forecast[i].append(forecastHumidity);
                     
                     
@@ -105,14 +101,6 @@ var APIKey = "e3813bf326b2e2d008254be6963cf88d"
 
         })
     }
-
-
-
-
-
-
-
-
 
 
 
@@ -159,6 +147,10 @@ clearHistory.addEventListener("click", function() {
     cityWindSpeed.innerHTML = "";
     cityUVIndex.innerHTML = "";
     icon.innerHTML = "";
+    forecastDate.innerHtml = "";
+    forecastTemp.innerHTML = "";
+    forecastHumidity.innerHTML = "";
+
 })
 
 
@@ -180,4 +172,4 @@ clearHistory.addEventListener("click", function() {
 
 
 
-// });    
+  
