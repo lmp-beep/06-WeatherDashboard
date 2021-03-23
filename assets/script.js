@@ -1,16 +1,17 @@
 
-
 var searchBtn = document.getElementById("search-button");
 var cityInput = document.getElementById("city-input");
 var historyEl = document.getElementById("history");
 var clearHistory = document.getElementById("clear-history");
 var city = document.getElementById("city-name");
 var cityTemp = document.getElementById("temperature");
+var cityTempHiLo = document.getElementById("temperature-hi-lo")
 var cityHumidity = document.getElementById("humidity");
 var cityWindSpeed = document.getElementById("wind-speed");
 var cityUVIndex = document.getElementById("UV-index");
-var icon = document.getElementById("weather-icon");
+var weatherIcon = document.getElementById("weather-icon");
 var forecast = document.querySelectorAll(".fiveDayForecast");
+var forecastIcon = document.getElementById("forecast-icon");
 
 var todayMoment = moment();
 var today = document.getElementById("today-date");
@@ -36,17 +37,17 @@ var APIKey = "e3813bf326b2e2d008254be6963cf88d";
             cityTemp.innerHTML = "Temperature: " + Math.round(data.main.temp) + " &#176F";
             cityHumidity.innerHTML = "Humidity: " + (data.main.humidity) + "%";
             cityWindSpeed.innerHTML = "Wind Speed: " + Math.round(data.wind.speed) + " MPH";
-
-
             // display weather pic icon
-            icon.innerHTML = data.weather[0].icon;
-             icon.setAttribute("src","https://openweathermap.org/img/wn/" + icon + "@2x.png");
-             icon.setAttribute("alt",data.weather[0].description);
+            weatherIcon.innerHTML = data.weather[0].icon;
+             weatherIcon.setAttribute("src","https://openweathermap.org/img/wn/" + weatherIcon + "@2x.png");
+             weatherIcon.setAttribute("alt",data.weather[0].description);
 
-            // API call for UV Index
+
+
+            // API call for UV Index and Temp Hi/Lo
             let lat = data.coord.lat;
             let lon = data.coord.lon;
-            var requestUVIndex = "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=" + APIKey;
+            var requestUVIndex = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=" + APIKey;
 
             fetch(requestUVIndex)
             .then(function (response) {
@@ -54,9 +55,37 @@ var APIKey = "e3813bf326b2e2d008254be6963cf88d";
             })
             .then(function (data) {
                 console.log(data);
+
+                // display results for temp hi/lo
+                // needed to be inside this function for OneCall API because the API for Weather does not include temp hi/lo
+                cityTempHiLo.innerHTML = "Temperature High/Low: " + Math.round(data.daily[0].temp.max) + "/" + Math.round(data.daily[0].temp.min) + " &#176F";
+                
                 // display UV results
-                cityUVIndex.innerHTML = "UV Index: " + (data.value);
+                let UVIndex = document.createElement("span");
+                
+                UVIndex.innerHTML = data.daily[0].uvi;
+                cityUVIndex.innerHTML = "UV Index: ";
+                cityUVIndex.append(UVIndex);
+
+                // if-else conditions for changing background color of uv index data
+                if (data.daily[0].uvi < 3) {
+                    // less than 3 is low = green
+                    UVIndex.setAttribute("class","badge badge-success");
+                  } else if (data.daily[0].uvi >= 3 && data.daily[0].uvi < 6) {
+                    // between 3-6 is medium = yellow
+                    UVIndex.setAttribute("class","badge badge-warning");
+                  } else if (data.daily[0].uvi >= 6 && data.daily[0].uvi < 8) {
+                    //between 6-8 is high = orange
+                    UVIndex.setAttribute("class","badge badge-warning");
+                  } else if (data.daily[0].uvi >= 8 && data.daily[0].uvi <= 11) {
+                    // between 8-11 is very high = red
+                    UVIndex.setAttribute("class","badge badge-danger");
+                  } else {
+                    // over 11 is extreme = purple
+                    UVIndex.setAttribute("class","badge badge-danger");
+                  }
             })
+
 
 
             // API call for 5 day forecast
@@ -70,11 +99,15 @@ var APIKey = "e3813bf326b2e2d008254be6963cf88d";
                 console.log(data);
                 for (i=0; i<forecast.length; i++) {
                     forecast[i].innerHTML = "";
-                    // display 5 day dates
-                    const forecastDate = new Date(data.daily[i].dt *1000).toLocaleDateString("en-US");
+                    // display 5 day dates - i+1 means start with the second date
+                    const forecastDate = new Date(data.daily[i + 1].dt *1000).toLocaleDateString("en-US");
                         console.log(forecastDate);
-                    forecastDate.innerHtml = "";
                     forecast[i].append(forecastDate);
+                    // display 5 day icons
+                    // const forecastIcon = document.getElementById("forecast-icon");
+                    // forecastIcon.innerHTML = data.daily[i].weather[0].icon;
+                    // forecastIcon.setAttribute("src","https://openweathermap.org/img/wn/" + forecastIcon + ".png");
+                    // forecastIcon.setAttribute("alt",(data.daily[i].weather[0].description));
                     // display 5 day temps
                     const forecastTemp = document.createElement("p");
                     forecastTemp.innerHTML = "Temp: " + Math.round(data.daily[i].temp.min) + "/" + Math.round(data.daily[i].temp.max) + " &#176F";
@@ -83,9 +116,8 @@ var APIKey = "e3813bf326b2e2d008254be6963cf88d";
                     const forecastHumidity = document.createElement("p");
                     forecastHumidity.innerHTML = "Humidity: " + Math.round(data.daily[i].humidity);
                     forecast[i].append(forecastHumidity);
-                    
-                    
-                    
+                
+
                     // display weather pic icon
                 //     const forecastIcon = document.createElement("img");
                 // forecastIcon.setAttribute("src","https://openweathermap.org/img/wn/" + data.list[forecastIndex].weather[0].icon + "@2x.png");
@@ -93,17 +125,12 @@ var APIKey = "e3813bf326b2e2d008254be6963cf88d";
                 // forecast[i].append(forecastIcon);
                    
                 }
-
-
-
             })
-
-
         })
     }
 
 
-
+// EVERYTHING LOCAL STORAGE BELOW
 
 // saving search history to local storage   
 let searchHistory = JSON.parse(localStorage.getItem("search")) || [];
@@ -139,37 +166,8 @@ function showSearchHistory() {
 clearHistory.addEventListener("click", function() {
     searchHistory = [];
     showSearchHistory();
-    document.getElementById('city-input').value = "";
-    city.innerHTML = "";
-    today.innerHTML = "";
-    cityTemp.innerHTML = "";
-    cityHumidity.innerHTML = "";
-    cityWindSpeed.innerHTML = "";
-    cityUVIndex.innerHTML = "";
-    icon.innerHTML = "";
-    forecastDate.innerHtml = "";
-    forecastTemp.innerHTML = "";
-    forecastHumidity.innerHTML = "";
-
+    localStorage.clear();
+    // this function (window.location.reload()) basically refreshes the page back to 0
+    window.location.reload();
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
