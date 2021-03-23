@@ -62,7 +62,6 @@ var APIKey = "e3813bf326b2e2d008254be6963cf88d";
                 
                 // display UV results
                 let UVIndex = document.createElement("span");
-                
                 UVIndex.innerHTML = data.daily[0].uvi;
                 cityUVIndex.innerHTML = "UV Index: ";
                 cityUVIndex.append(UVIndex);
@@ -104,20 +103,11 @@ var APIKey = "e3813bf326b2e2d008254be6963cf88d";
                     const forecastDate = new Date(data.daily[i + 1].dt *1000).toLocaleDateString("en-US");
                         // console.log(forecastDate);
                     forecast[i].append(forecastDate);
-
-
-
-                    // display 5 day icons
-                    // forecastIcon.forEach(function(El) {  
-                        console.log(forecast[i].childNodes)                  
+                    // display 5 day icons               
                     let forecastPic = data.daily[i].weather[0].icon;
                     forecastIcon[i].setAttribute("src","https://openweathermap.org/img/wn/" + forecastPic + "@2x.png");
                     forecastIcon[i].setAttribute("alt",data.daily[i].weather[0].description);
                     forecast[i].append(forecastIcon[i]);
-                // })
-
-
-                    
                     // display 5 day temps
                     const forecastTemp = document.createElement("p");
                     forecastTemp.innerHTML = "Temp: " + Math.round(data.daily[i].temp.min) + "/" + Math.round(data.daily[i].temp.max) + " &#176F";
