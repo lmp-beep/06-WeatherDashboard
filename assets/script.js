@@ -38,12 +38,12 @@ var APIKey = "e3813bf326b2e2d008254be6963cf88d";
             cityHumidity.innerHTML = "Humidity: " + (data.main.humidity) + "%";
             cityWindSpeed.innerHTML = "Wind Speed: " + Math.round(data.wind.speed) + " MPH";
             // display weather pic icon
-            weatherIcon.innerHTML = data.weather[0].icon;
-             weatherIcon.setAttribute("src","https://openweathermap.org/img/wn/" + weatherIcon + "@2x.png");
-             weatherIcon.setAttribute("alt",data.weather[0].description);
+            let weatherPic = data.weather[0].icon;
+            weatherIcon.setAttribute("src","https://openweathermap.org/img/wn/" + weatherPic + "@2x.png");
+            weatherIcon.setAttribute("alt",data.weather[0].description);
 
 
-
+            
             // API call for UV Index and Temp Hi/Lo
             let lat = data.coord.lat;
             let lon = data.coord.lon;
@@ -104,10 +104,15 @@ var APIKey = "e3813bf326b2e2d008254be6963cf88d";
                         console.log(forecastDate);
                     forecast[i].append(forecastDate);
                     // display 5 day icons
-                    // const forecastIcon = document.getElementById("forecast-icon");
-                    // forecastIcon.innerHTML = data.daily[i].weather[0].icon;
-                    // forecastIcon.setAttribute("src","https://openweathermap.org/img/wn/" + forecastIcon + ".png");
-                    // forecastIcon.setAttribute("alt",(data.daily[i].weather[0].description));
+
+                    let forecastPic = data.daily[i].weather[0].icon;
+                    forecastIcon.setAttribute("src","https://openweathermap.org/img/wn/" + forecastPic + "@2x.png");
+                    forecastIcon.setAttribute("alt",data.daily[i].weather[0].description);
+                    forecast[i].append(forecastIcon);
+
+
+
+                    
                     // display 5 day temps
                     const forecastTemp = document.createElement("p");
                     forecastTemp.innerHTML = "Temp: " + Math.round(data.daily[i].temp.min) + "/" + Math.round(data.daily[i].temp.max) + " &#176F";
@@ -116,14 +121,6 @@ var APIKey = "e3813bf326b2e2d008254be6963cf88d";
                     const forecastHumidity = document.createElement("p");
                     forecastHumidity.innerHTML = "Humidity: " + Math.round(data.daily[i].humidity);
                     forecast[i].append(forecastHumidity);
-                
-
-                    // display weather pic icon
-                //     const forecastIcon = document.createElement("img");
-                // forecastIcon.setAttribute("src","https://openweathermap.org/img/wn/" + data.list[forecastIndex].weather[0].icon + "@2x.png");
-                // forecastIcon.setAttribute("alt",response.data.list[forecastIndex].weather[0].description);
-                // forecast[i].append(forecastIcon);
-                   
                 }
             })
         })

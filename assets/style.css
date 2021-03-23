@@ -23,6 +23,10 @@ h1 {
     font-family: 'Lexend', sans-serif;
 } 
 
+#weather-icon {
+    padding-left: 30%;
+}
+
 .fiveDayForecast {
     font-family: 'Lexend', sans-serif;
     font-size: 14px;
