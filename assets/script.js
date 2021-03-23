@@ -11,7 +11,7 @@ var cityWindSpeed = document.getElementById("wind-speed");
 var cityUVIndex = document.getElementById("UV-index");
 var weatherIcon = document.getElementById("weather-icon");
 var forecast = document.querySelectorAll(".fiveDayForecast");
-var forecastIcon = document.getElementById("forecast-icon");
+var forecastIcon = document.querySelectorAll(".forecast-icon");
 
 var todayMoment = moment();
 var today = document.getElementById("today-date");
@@ -96,20 +96,25 @@ var APIKey = "e3813bf326b2e2d008254be6963cf88d";
                 return response.json();
             })
             .then(function (data) {
+                console.log("forecast-icons", forecast)
                 console.log(data);
                 for (i=0; i<forecast.length; i++) {
                     forecast[i].innerHTML = "";
                     // display 5 day dates - i+1 means start with the second date
                     const forecastDate = new Date(data.daily[i + 1].dt *1000).toLocaleDateString("en-US");
-                        console.log(forecastDate);
+                        // console.log(forecastDate);
                     forecast[i].append(forecastDate);
+
+
+
                     // display 5 day icons
-
+                    // forecastIcon.forEach(function(El) {  
+                        console.log(forecast[i].childNodes)                  
                     let forecastPic = data.daily[i].weather[0].icon;
-                    forecastIcon.setAttribute("src","https://openweathermap.org/img/wn/" + forecastPic + "@2x.png");
-                    forecastIcon.setAttribute("alt",data.daily[i].weather[0].description);
-                    forecast[i].append(forecastIcon);
-
+                    forecastIcon[i].setAttribute("src","https://openweathermap.org/img/wn/" + forecastPic + "@2x.png");
+                    forecastIcon[i].setAttribute("alt",data.daily[i].weather[0].description);
+                    forecast[i].append(forecastIcon[i]);
+                // })
 
 
                     

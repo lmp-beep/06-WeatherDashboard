@@ -10,6 +10,7 @@ h1 {
 }
 
 .container {
+    /* display: flex; */
     font-family: 'Lexend', sans-serif;
     font-size: 18px;
 }
@@ -32,6 +33,12 @@ h1 {
     font-size: 14px;
 }
 
+
+/* @media only screen and (max-width: 768px) {
+    .container {
+      display: grid;
+    }
+  } */
 
 /* .uv-high {
     background-color: #f89003;
