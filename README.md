@@ -6,3 +6,7 @@ This weather dashboard will find the current weather and 5 day forecast for any 
 
 
 
+![screencapture-lmp-beep-github-io-06-WeatherDashboard-2021-03-24-09_34_23](https://user-images.githubusercontent.com/77073582/112322052-f5117380-8c86-11eb-9e30-de7a984a5ecb.png)
+![screencapture-lmp-beep-github-io-06-WeatherDashboard-2021-03-24-09_35_02](https://user-images.githubusercontent.com/77073582/112322055-f6db3700-8c86-11eb-820e-6fa70e8a82c4.png)
+![screencapture-lmp-beep-github-io-06-WeatherDashboard-2021-03-24-09_35_39](https://user-images.githubusercontent.com/77073582/112322065-f8a4fa80-8c86-11eb-953a-010cf0fc466d.png)
+![screencapture-lmp-beep-github-io-06-WeatherDashboard-2021-03-24-09_35_58](https://user-images.githubusercontent.com/77073582/112322083-fb9feb00-8c86-11eb-8806-033fab6fa354.png)
