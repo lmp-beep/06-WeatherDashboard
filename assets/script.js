@@ -99,9 +99,8 @@ var APIKey = "e3813bf326b2e2d008254be6963cf88d";
                 console.log(data);
                 for (i=0; i<forecast.length; i++) {
                     forecast[i].innerHTML = "";
-                    // display 5 day dates - i+1 means start with the second date
+                    // display 5 day dates - i+1 means start with the second date - the first date is included in the current weather above
                     const forecastDate = new Date(data.daily[i + 1].dt *1000).toLocaleDateString("en-US");
-                        // console.log(forecastDate);
                     forecast[i].append(forecastDate);
                     // display 5 day icons               
                     let forecastPic = data.daily[i].weather[0].icon;

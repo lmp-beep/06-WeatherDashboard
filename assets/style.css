@@ -6,11 +6,9 @@ h1 {
     padding: 20px;
     font-family: 'Lexend', sans-serif;
     font-weight: 400;
-
 }
 
 .container {
-    /* display: flex; */
     font-family: 'Lexend', sans-serif;
     font-size: 18px;
 }
@@ -33,18 +31,4 @@ h1 {
     font-size: 14px;
 }
 
-
-/* @media only screen and (max-width: 768px) {
-    .container {
-      display: grid;
-    }
-  } */
-
-/* .uv-high {
-    background-color: #f89003;
-  }
-  
-  .uv-extreme {
-    background-color: #9e47cc;
-  } */
 
